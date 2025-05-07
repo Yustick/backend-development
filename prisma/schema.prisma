@@ -1,0 +1,63 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String
+  roleId    String
+  role      Role     @relation(fields: [roleId], references: [id])
+  messages  Message[]
+  chats     ChatUser[]
+  createdAt DateTime @default(now())
+}
+
+model Role {
+  id    String  @id @default(uuid())
+  name  String  @unique
+  users User[]
+}
+
+model Chat {
+  id        String      @id @default(uuid())
+  name      String?
+  isGroup   Boolean      @default(false)
+  messages  Message[]
+  users     ChatUser[]
+  createdAt DateTime     @default(now())
+}
+
+model ChatUser {
+  id        String   @id @default(uuid())
+  userId    String
+  chatId    String
+  user      User     @relation(fields: [userId], references: [id])
+  chat      Chat     @relation(fields: [chatId], references: [id])
+  joinedAt  DateTime @default(now())
+
+  @@unique([userId, chatId])
+}
+
+model Message {
+  id        String   @id @default(uuid())
+  content   String
+  chatId    String
+  authorId  String
+  chat      Chat     @relation(fields: [chatId], references: [id])
+  author    User     @relation(fields: [authorId], references: [id])
+  createdAt DateTime @default(now())
+}

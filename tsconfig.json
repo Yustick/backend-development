@@ -29,6 +29,12 @@
       ],
       "@app/services-lr4/*": [
         "libs/services-lr4/src/*"
+      ],
+      "@app/database": [
+        "libs/database/src"
+      ],
+      "@app/database/*": [
+        "libs/database/src/*"
       ]
     }
   }

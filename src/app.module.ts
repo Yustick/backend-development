@@ -1,9 +1,9 @@
-import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { UsersModule } from './users/users.module';
 import { MessagesModule } from './messages/messages.module';
 import { ChatsModule } from './chats/chats.module';
 import { RolesModule } from './roles/roles.module';
-import { AuthMiddleware, LoggerMiddleware, RateLimitMiddleware } from '@app/middlewares';
+import { LoggerMiddleware } from '@app/middlewares';
 
 @Module({
     imports: [
@@ -15,10 +15,10 @@ import { AuthMiddleware, LoggerMiddleware, RateLimitMiddleware } from '@app/midd
 })
 export class AppModule implements NestModule {
 	configure(consumer: MiddlewareConsumer) {
-	  consumer.apply(RateLimitMiddleware).forRoutes('*');
+	//   consumer.apply(RateLimitMiddleware).forRoutes('*');
 	  consumer.apply(LoggerMiddleware).forRoutes('*');
-	  consumer.apply(AuthMiddleware)
-		.exclude({ path: '/api/v1/users', method: RequestMethod.GET }) // <-- виключення
-		.forRoutes('/api/v1/users*');
+	//   consumer.apply(AuthMiddleware)
+	// 	.exclude({ path: '/api/v1/users', method: RequestMethod.GET }) // <-- виключення
+	// 	.forRoutes('/api/v1/users*');
 	}
 }
