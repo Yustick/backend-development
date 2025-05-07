@@ -1,4 +1,7 @@
-Завдання на ЛР2:
+Самостійна робота:
+- Розробка back-end для чату
+
+Завдання на ЛР2: (Done)
 -	Створити маршрути для 6+ адрес (всередині контролерів)
 -	Створити 2 контролери
 -	Мінімум в 1 з контролерів має бути приймання даних
@@ -33,5 +36,33 @@
 -	Реалізувати авторизацію за допомогою Guard
 -	Реалізувати авторизацію за ролями
 
-Самостійна робота:
-- Розробка back-end для чату
+План:
+
+1) User
+ -   Entity
+ -   Controller
+ -   Service
+ -   Module
+
+2) Message
+ -   Entity
+ -   Controller
+ -   Service
+ -   Module
+
+3) Chat
+ -   Entity
+ -   Controller
+ -   Service
+ -   Module
+
+4) Role
+ -   Entity
+ -   Controller
+ -   Service
+ -   Module
+
+Midlleware
+1) LoggerMiddleware
+2) AuthMiddleware (+виключення)
+3) RateLimitMiddleware

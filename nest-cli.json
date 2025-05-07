@@ -3,6 +3,18 @@
   "collection": "@nestjs/schematics",
   "sourceRoot": "src",
   "compilerOptions": {
-    "deleteOutDir": true
+    "deleteOutDir": true,
+    "webpack": true
+  },
+  "projects": {
+    "middlewares": {
+      "type": "library",
+      "root": "libs/middlewares",
+      "entryFile": "index",
+      "sourceRoot": "libs/middlewares/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/middlewares/tsconfig.lib.json"
+      }
+    }
   }
 }
