@@ -2,11 +2,14 @@ import { Module } from '@nestjs/common';
 import { UsersModule } from './users/users.module';
 import { MessagesModule } from './messages/messages.module';
 import { ChatsModule } from './chats/chats.module';
-import { ServicesLr4Module } from '@app/services-lr4';
+import { RolesModule } from './roles/roles.module';
 
 @Module({
-    imports: [UsersModule, MessagesModule, ChatsModule,
-      ServicesLr4Module
+    imports: [
+        UsersModule, 
+        MessagesModule, 
+        ChatsModule,
+        RolesModule
     ],
 })
 export class AppModule {}
