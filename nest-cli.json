@@ -15,6 +15,15 @@
       "compilerOptions": {
         "tsConfigPath": "libs/middlewares/tsconfig.lib.json"
       }
+    },
+    "services-lr4": {
+      "type": "library",
+      "root": "libs/services-lr4",
+      "entryFile": "index",
+      "sourceRoot": "libs/services-lr4/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/services-lr4/tsconfig.lib.json"
+      }
     }
   }
 }

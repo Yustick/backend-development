@@ -25,7 +25,8 @@
     "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^10.0.0",
     "reflect-metadata": "^0.2.0",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",
@@ -71,7 +72,8 @@
       "<rootDir>/libs/"
     ],
     "moduleNameMapper": {
-      "^@app/middlewares(|/.*)$": "<rootDir>/libs/middlewares/src/$1"
+      "^@app/middlewares(|/.*)$": "<rootDir>/libs/middlewares/src/$1",
+      "^@app/services-lr4(|/.*)$": "<rootDir>/libs/services-lr4/src/$1"
     }
   }
 }

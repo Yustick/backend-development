@@ -23,6 +23,12 @@
       ],
       "@app/middlewares/*": [
         "libs/middlewares/src/*"
+      ],
+      "@app/services-lr4": [
+        "libs/services-lr4/src"
+      ],
+      "@app/services-lr4/*": [
+        "libs/services-lr4/src/*"
       ]
     }
   }
