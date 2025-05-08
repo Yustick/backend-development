@@ -1,4 +1,4 @@
 export * from './prisma.module';
 export * from './prisma.service';
 export * from './prisma-exception.filter';
-export * from './../../../generated/prisma'
+export * from './../../../generated/prisma';

@@ -11,11 +11,16 @@ export class ChatsService {
     }
 
     findAll() {
-        return this.prisma.chat.findMany({ include: { users: true, messages: true } });
+        return this.prisma.chat.findMany({
+            include: { users: true, messages: true },
+        });
     }
 
     findOne(id: string) {
-        return this.prisma.chat.findUnique({ where: { id }, include: { users: true, messages: true } });
+        return this.prisma.chat.findUnique({
+            where: { id },
+            include: { users: true, messages: true },
+        });
     }
 
     update(id: string, data: Prisma.ChatUpdateInput) {

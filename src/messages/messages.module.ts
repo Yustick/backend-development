@@ -4,9 +4,7 @@ import { MessagesController } from './messages.controller';
 import { PrismaModule } from '@app/database';
 
 @Module({
-    imports: [
-            PrismaModule,
-        ],
+    imports: [PrismaModule],
     controllers: [MessagesController],
     providers: [MessagesService],
 })

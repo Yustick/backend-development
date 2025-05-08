@@ -8,7 +8,7 @@ export class ServicesLr4Service {
     constructor(
         private readonly singletonService: SingletonService,
         private readonly transientService: TransientService,
-        private readonly requestService: RequestService,
+        private readonly requestService: RequestService
     ) {}
 
     check() {

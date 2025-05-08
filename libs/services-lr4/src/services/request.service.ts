@@ -1,7 +1,7 @@
 import { Injectable, Scope } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
 
-@Injectable({scope: Scope.REQUEST})
+@Injectable({ scope: Scope.REQUEST })
 export class RequestService {
     private readonly id: string;
 

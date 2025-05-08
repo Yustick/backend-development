@@ -10,11 +10,16 @@ export class MessagesService {
     }
 
     findAll() {
-        return this.prisma.message.findMany({ include: { author: true, chat: true } });
+        return this.prisma.message.findMany({
+            include: { author: true, chat: true },
+        });
     }
 
     findOne(id: string) {
-        return this.prisma.message.findUnique({ where: { id }, include: { author: true, chat: true } });
+        return this.prisma.message.findUnique({
+            where: { id },
+            include: { author: true, chat: true },
+        });
     }
 
     update(id: string, data: Prisma.MessageUpdateInput) {
