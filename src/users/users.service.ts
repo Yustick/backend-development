@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { Prisma, PrismaService } from '@app/database';
 
 @Injectable()
@@ -11,7 +11,7 @@ export class UsersService {
         });
 
         if (!defaultRole) {
-            throw new Error('Default role "user" not found');
+            throw new InternalServerErrorException('Default role "user" not found');
         }
 
         return this.prisma.user.create({
@@ -47,7 +47,9 @@ export class UsersService {
         return this.prisma.user.update({ where: { id }, data });
     }
 
-    remove(id: string) {
+    async remove(id: string) {
+        await this.prisma.userRole.deleteMany({ where: { userId: id } });
+
         return this.prisma.user.delete({ where: { id } });
     }
 }
