@@ -5,7 +5,7 @@ import { Prisma, PrismaService } from '@app/database';
 export class UsersService {
     constructor(private prisma: PrismaService) {}
 
-    async create(data: Omit<Prisma.UserCreateInput, 'role'>) {
+    async create(data: Omit<Prisma.UserCreateInput, 'roles'>) {
         const defaultRole = await this.prisma.role.findUnique({
             where: { name: 'user' },
         });
@@ -17,23 +17,29 @@ export class UsersService {
         return this.prisma.user.create({
             data: {
                 ...data,
-                role: {
-                    connect: { id: defaultRole.id },
+                roles: {
+                    create: [
+                        {
+                            role: {
+                                connect: { id: defaultRole.id },
+                            },
+                        },
+                    ],
                 },
             },
         });
     }
 
-    findAll() {
+    findAll(includeRoles = true, includeChats = false) {
         return this.prisma.user.findMany({
-            include: { role: true, chats: true },
+            include: { roles: includeRoles, chats: includeChats },
         });
     }
 
     findOne(id: string) {
         return this.prisma.user.findUnique({
             where: { id },
-            include: { role: true, chats: true },
+            include: { roles: true, chats: true },
         });
     }
 

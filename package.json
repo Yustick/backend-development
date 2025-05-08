@@ -9,6 +9,8 @@
     "seed": "ts-node prisma/seed.ts"
   },
   "scripts": {
+    "db:gen": "prisma generate",
+    "db:seed": "prisma db seed",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"libs/**/*.ts\"",
     "start": "nest start",
