@@ -14,7 +14,7 @@ import { CreateChatDto } from './dto/create-chat.dto';
 import { UpdateChatDto } from './dto/update-chat.dto';
 import { RoleGuard } from 'src/authentication/guards/role.guard';
 import { Role } from 'src/roles/role.enum';
-import JwtAuthenticationGuard from 'src/authentication/jwt-authentication.guard';
+import JwtAuthenticationGuard from 'src/authentication/guards/jwt-authentication.guard';
 import { RequestWithUser } from 'src/authentication/request-with-user.interface';
 import { ChatOwnerGuard } from 'src/authentication/guards/chat-owner.guard';
 

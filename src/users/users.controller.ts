@@ -12,7 +12,7 @@ import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Role } from 'src/roles/role.enum';
 import { RoleGuard } from 'src/authentication/guards/role.guard';
-import JwtAuthenticationGuard from 'src/authentication/jwt-authentication.guard';
+import JwtAuthenticationGuard from 'src/authentication/guards/jwt-authentication.guard';
 
 @Controller('api/v1/users')
 @UseGuards(JwtAuthenticationGuard)

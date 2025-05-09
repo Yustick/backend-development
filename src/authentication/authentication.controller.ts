@@ -13,7 +13,7 @@ import { AuthenticationService } from './authentication.service';
 import { LocalAuthenticationGuard } from './guards/local-authentication.guard';
 import { RequestWithUser } from './request-with-user.interface';
 import { Response } from 'express';
-import JwtAuthenticationGuard from './jwt-authentication.guard';
+import JwtAuthenticationGuard from './guards/jwt-authentication.guard';
 
 @Controller('api/v1/authentication')
 export class AuthenticationController {

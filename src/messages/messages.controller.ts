@@ -12,7 +12,7 @@ import {
 import { MessagesService } from './messages.service';
 import { UpdateMessageDto } from './dto/update-message.dto';
 import { CreateMessageDto } from './dto/create-message.dto';
-import JwtAuthenticationGuard from 'src/authentication/jwt-authentication.guard';
+import JwtAuthenticationGuard from 'src/authentication/guards/jwt-authentication.guard';
 import { MessageOwnerGuard } from 'src/authentication/guards/message-owner.guard';
 import { RequestWithUser } from 'src/authentication/request-with-user.interface';
 
