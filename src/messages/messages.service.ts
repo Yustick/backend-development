@@ -6,24 +6,35 @@ import { CreateMessageDto } from './dto/create-message.dto';
 export class MessagesService {
     constructor(private prisma: PrismaService) {}
 
-    async create(dto: CreateMessageDto) {
+    async create(dto: CreateMessageDto, userId: string) {
         return this.prisma.message.create({
-          data: {
-            content: dto.content,
-            chat: {
-              connect: { id: dto.chatId },
+            data: {
+                content: dto.content,
+                chat: {
+                    connect: { id: dto.chatId },
+                },
+                author: {
+                    connect: { id: userId },
+                },
             },
-            author: {
-              connect: { id: dto.authorId },
-            },
-          },
         });
-      }
+    }
 
-    findAll() {
+    async findAllForUserOrAdmin(userId: string, roles: string[] ) {
+        const isAdmin = roles.includes('admin');
+        
         return this.prisma.message.findMany({
-            include: { author: true, chat: true },
+            where: isAdmin ? {} : { authorId: userId },
+            include: { chat: true },
         });
+    }
+
+    async findOwnerMessage(id: string) {
+        const message = await this.prisma.message.findUnique({
+            where: { id },
+            select: { authorId: true },
+        });
+        return message
     }
 
     findOne(id: string) {

@@ -1,54 +1,62 @@
 import {
     Controller,
     Get,
-    Post,
     Body,
     Param,
     Delete,
     Put,
-    HttpCode,
-    HttpStatus,
-    ParseUUIDPipe
+    ParseUUIDPipe,
+    UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { Role } from 'src/roles/role.enum';
+import { RoleGuard } from 'src/authentication/guards/role.guard';
+import JwtAuthenticationGuard from 'src/authentication/jwt-authentication.guard';
 
 @Controller('api/v1/users')
+@UseGuards(JwtAuthenticationGuard)
 export class UsersController {
     constructor(private readonly usersService: UsersService) {}
 
-    @Post()
-    //@UsePipes(new ValidationPipe({ whitelist: true }))
-    create(@Body() data: CreateUserDto) {
-        return this.usersService.create(data);
-    }
+    // @Post()
+    // @HttpCode(HttpStatus.OK)
+    // create(@Body() data: CreateUserDto) {
+    //     return this.usersService.create(data);
+    // }
 
     @Get()
-    findAll(
-        // @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
-        // @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
-    ) {
+    @UseGuards(RoleGuard([Role.ADMIN]))
+    findAll() {
         return this.usersService.findAll();
     }
 
     @Get(':id')
+    @UseGuards(RoleGuard([Role.ADMIN]))
     findOne(@Param('id', new ParseUUIDPipe()) id: string) {
         return this.usersService.findOne(id);
     }
 
     @Put(':id')
-    update(@Param('id', new ParseUUIDPipe()) id: string, @Body() data: UpdateUserDto) {
+    @UseGuards(RoleGuard([Role.ADMIN]))
+    update(
+        @Param('id', new ParseUUIDPipe()) id: string,
+        @Body() data: UpdateUserDto
+    ) {
         return this.usersService.update(id, data);
     }
 
     @Put(':id/assign/:role')
-    @HttpCode(HttpStatus.OK)
-    async assignRole(@Param('id', new ParseUUIDPipe()) id: string, @Param('role') role: string) {
+    @UseGuards(RoleGuard([Role.ADMIN]))
+    async assignRole(
+        @Param('id', new ParseUUIDPipe()) id: string,
+        @Param('role') role: string
+    ) {
         return this.usersService.assignRole(id, role);
     }
 
     @Delete(':id')
+    @UseGuards(RoleGuard([Role.ADMIN]))
     remove(@Param('id', new ParseUUIDPipe()) id: string) {
         return this.usersService.remove(id);
     }

@@ -7,7 +7,4 @@ export class CreateMessageDto {
 
     @IsUUID()
     chatId: string;
-
-    @IsUUID()
-    authorId: string;
 }

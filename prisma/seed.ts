@@ -1,17 +1,18 @@
 import { PrismaClient } from '@prisma/client';
+import { Role } from 'src/roles/role.enum';
 const prisma = new PrismaClient();
 
 async function main() {
     await prisma.role.upsert({
-        where: { name: 'user' },
+        where: { name: Role.USER },
         update: {},
-        create: { name: 'user' },
+        create: { name: Role.USER },
     });
 
     await prisma.role.upsert({
-        where: { name: 'admin' },
+        where: { name: Role.ADMIN },
         update: {},
-        create: { name: 'admin' },
+        create: { name: Role.ADMIN },
     });
 }
 

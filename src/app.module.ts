@@ -4,9 +4,16 @@ import { MessagesModule } from './messages/messages.module';
 import { ChatsModule } from './chats/chats.module';
 import { RolesModule } from './roles/roles.module';
 import { LoggerMiddleware } from '@app/middlewares';
+import { AuthenticationModule } from './authentication/authentication.module';
 
 @Module({
-    imports: [UsersModule, MessagesModule, ChatsModule, RolesModule],
+    imports: [
+        UsersModule,
+        MessagesModule,
+        ChatsModule,
+        RolesModule,
+        AuthenticationModule,
+    ],
 })
 export class AppModule implements NestModule {
     configure(consumer: MiddlewareConsumer) {

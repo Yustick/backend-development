@@ -20,7 +20,6 @@ export class ServicesLr4Controller {
             transient2: this.transientService.getId(),
             requestScoped: ids.requestScoped,
         };
-        console.log('ids', result);
         return result;
     }
 }

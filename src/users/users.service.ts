@@ -1,40 +1,61 @@
-import {
-    ConflictException,
-    Injectable,
-} from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { Prisma, PrismaService } from '@app/database';
 import {
     UserByEmailNotFoundException,
     UserByIdNotFoundException,
 } from '@app/exceptions';
 import { RolesService } from 'src/roles/roles.service';
+import { Role } from 'src/roles/role.enum';
 
 @Injectable()
 export class UsersService {
-    constructor(private prisma: PrismaService,
-        private readonly rolesService: RolesService,
+    constructor(
+        private prisma: PrismaService,
+        private readonly rolesService: RolesService
     ) {}
 
     async create(data: Omit<Prisma.UserCreateInput, 'roles'>) {
         const user = await this.prisma.user.create({
             data,
         });
-    
-        await this.assignRole(user.id, 'user');
-    
+
+        await this.assignRole(user.id, Role.USER);
+
         return user;
     }
 
     findAll(includeRoles = true, includeChats = false) {
         return this.prisma.user.findMany({
-            include: { roles: includeRoles, chats: includeChats },
+            include: { 
+                roles: { 
+                    include: {
+                        role: includeRoles
+                    }
+                }, 
+                chats: { 
+                    include: {
+                        chat: includeChats
+                    }
+                },
+            },
         });
     }
 
-    async findOne(id: string) {
+    async findOne(id: string, includeRoles = true, includeChats = false) {
         const user = await this.prisma.user.findUnique({
             where: { id },
-            include: { roles: true, chats: true },
+            include: { 
+                roles: { 
+                    include: {
+                        role: includeRoles
+                    }
+                }, 
+                chats: { 
+                    include: {
+                        chat: includeChats
+                    }
+                },
+            },
         });
 
         if (!user) throw new UserByIdNotFoundException(id);
@@ -42,10 +63,21 @@ export class UsersService {
         return user;
     }
 
-    async findByEmail(email: string) {
+    async findByEmail(email: string, includeRoles = true, includeChats = false) {
         const user = await this.prisma.user.findUnique({
             where: { email },
-            include: { roles: true, chats: true },
+            include: { 
+                roles: { 
+                    include: {
+                        role: includeRoles
+                    }
+                }, 
+                chats: { 
+                    include: {
+                        chat: includeChats
+                    }
+                },
+            },
         });
 
         if (!user) throw new UserByEmailNotFoundException(email);
@@ -64,11 +96,13 @@ export class UsersService {
     }
 
     async assignRole(userId: string, roleName: string) {
-        const user = await this.prisma.user.findUnique({ where: { id: userId } });
+        const user = await this.prisma.user.findUnique({
+            where: { id: userId },
+        });
         if (!user) {
             throw new UserByIdNotFoundException(userId);
         }
-    
+
         const role = await this.rolesService.findByName(roleName);
 
         const existing = await this.prisma.userRole.findUnique({
@@ -79,11 +113,11 @@ export class UsersService {
                 },
             },
         });
-    
+
         if (existing) {
             throw new ConflictException(`User already has role "${roleName}"`);
         }
-    
+
         return this.prisma.userRole.create({
             data: {
                 user: { connect: { id: userId } },

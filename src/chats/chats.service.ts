@@ -5,8 +5,20 @@ import { Prisma, PrismaService } from '@app/database';
 export class ChatsService {
     constructor(private prisma: PrismaService) {}
 
-    create(data: Prisma.ChatCreateInput) {
-        return this.prisma.chat.create({ data });
+    create(data: Prisma.ChatCreateInput, userIds: string[]) {
+        return this.prisma.chat.create({
+            data: {
+                ...data,
+                users: {
+                    create: userIds.map(userId => ({
+                        user: { connect: { id: userId } },
+                    })),
+                },
+            },
+            include: {
+                users: true,
+            },
+        });
     }
 
     findAll() {
