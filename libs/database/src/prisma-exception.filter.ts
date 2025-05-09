@@ -4,17 +4,19 @@ import {
     ExceptionFilter,
     HttpStatus,
 } from '@nestjs/common';
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
+import { Prisma } from '@prisma/client';
 import { Response } from 'express';
 
-@Catch(PrismaClientKnownRequestError)
+@Catch(Prisma.PrismaClientKnownRequestError)
 export class PrismaClientExceptionFilter
-    implements ExceptionFilter<PrismaClientKnownRequestError>
+    implements ExceptionFilter<Prisma.PrismaClientKnownRequestError>
 {
-    catch(exception: PrismaClientKnownRequestError, host: ArgumentsHost) {
+    catch(
+        exception: Prisma.PrismaClientKnownRequestError,
+        host: ArgumentsHost
+    ) {
         const ctx = host.switchToHttp();
         const response = ctx.getResponse<Response>();
-        
         let status = HttpStatus.INTERNAL_SERVER_ERROR;
         let message = 'Internal server error';
 

@@ -35,6 +35,12 @@
       ],
       "@app/database/*": [
         "libs/database/src/*"
+      ],
+      "@app/exceptions": [
+        "libs/exceptions/src"
+      ],
+      "@app/exceptions/*": [
+        "libs/exceptions/src/*"
       ]
     }
   }
