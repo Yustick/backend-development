@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Prisma, PrismaService, Role } from '@app/database';
 
 @Injectable()
@@ -28,7 +28,11 @@ export class RolesService {
         return this.prisma.role.delete({ where: { id } });
     }
 
-    findByName(name: string): Promise<Role | null> {
-        return this.prisma.role.findUnique({ where: { name } });
+    async findByName(name: string): Promise<Role | null> {
+        const role = await this.prisma.role.findUnique({ where: { name } });
+        if (!role) {
+            throw new NotFoundException(`Role "${name}" not found`);
+        }
+        return role;
     }
 }

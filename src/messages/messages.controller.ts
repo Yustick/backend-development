@@ -8,13 +8,15 @@ import {
     Delete,
 } from '@nestjs/common';
 import { MessagesService } from './messages.service';
+import { UpdateMessageDto } from './dto/update-message.dto';
+import { CreateMessageDto } from './dto/create-message.dto';
 
 @Controller('api/v1/messages')
 export class MessagesController {
     constructor(private readonly messagesService: MessagesService) {}
 
     @Post()
-    create(@Body() createMessageDto: any) {
+    create(@Body() createMessageDto: CreateMessageDto) {
         return this.messagesService.create(createMessageDto);
     }
 
@@ -29,7 +31,7 @@ export class MessagesController {
     }
 
     @Patch(':id')
-    update(@Param('id') id: string, @Body() updateMessageDto: any) {
+    update(@Param('id') id: string, @Body() updateMessageDto: UpdateMessageDto) {
         return this.messagesService.update(id, updateMessageDto);
     }
 

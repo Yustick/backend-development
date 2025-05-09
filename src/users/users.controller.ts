@@ -6,35 +6,50 @@ import {
     Param,
     Delete,
     Put,
+    HttpCode,
+    HttpStatus,
+    ParseUUIDPipe
 } from '@nestjs/common';
 import { UsersService } from './users.service';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Controller('api/v1/users')
 export class UsersController {
     constructor(private readonly usersService: UsersService) {}
 
     @Post()
-    create(@Body() data: any) {
+    //@UsePipes(new ValidationPipe({ whitelist: true }))
+    create(@Body() data: CreateUserDto) {
         return this.usersService.create(data);
     }
 
     @Get()
-    findAll() {
+    findAll(
+        // @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
+        // @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
+    ) {
         return this.usersService.findAll();
     }
 
     @Get(':id')
-    findOne(@Param('id') id: string) {
+    findOne(@Param('id', new ParseUUIDPipe()) id: string) {
         return this.usersService.findOne(id);
     }
 
     @Put(':id')
-    update(@Param('id') id: string, @Body() data: any) {
+    update(@Param('id', new ParseUUIDPipe()) id: string, @Body() data: UpdateUserDto) {
         return this.usersService.update(id, data);
     }
 
+    @Put(':id/assign/:role')
+    @HttpCode(HttpStatus.OK)
+    async assignRole(@Param('id', new ParseUUIDPipe()) id: string, @Param('role') role: string) {
+        return this.usersService.assignRole(id, role);
+    }
+
     @Delete(':id')
-    remove(@Param('id') id: string) {
+    remove(@Param('id', new ParseUUIDPipe()) id: string) {
         return this.usersService.remove(id);
     }
 }

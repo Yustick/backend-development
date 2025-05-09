@@ -1,7 +1,6 @@
 import {
     ConflictException,
     Injectable,
-    NotFoundException,
 } from '@nestjs/common';
 import { Prisma, PrismaService } from '@app/database';
 import {
@@ -38,8 +37,6 @@ export class UsersService {
             include: { roles: true, chats: true },
         });
 
-        console.log(user);
-
         if (!user) throw new UserByIdNotFoundException(id);
 
         return user;
@@ -69,14 +66,11 @@ export class UsersService {
     async assignRole(userId: string, roleName: string) {
         const user = await this.prisma.user.findUnique({ where: { id: userId } });
         if (!user) {
-            throw new NotFoundException(`User with ID ${userId} not found`);
+            throw new UserByIdNotFoundException(userId);
         }
     
-        const role = await this.prisma.role.findUnique({ where: { name: roleName } });
-        if (!role) {
-            throw new NotFoundException(`Role "${roleName}" not found`);
-        }
-    
+        const role = await this.rolesService.findByName(roleName);
+
         const existing = await this.prisma.userRole.findUnique({
             where: {
                 userId_roleId: {
